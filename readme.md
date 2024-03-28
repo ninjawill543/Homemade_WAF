@@ -3,5 +3,5 @@
 -   Malicious ip / ddos
 -   User agent, content type, http verb
 -   Sql/xss 
--   File upload check
+-   Image upload check: gif/jpeg/jpg/png
 -   Anti Bot
