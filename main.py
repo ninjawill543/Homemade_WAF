@@ -9,8 +9,12 @@ def home():
 @app.route("/submit", methods=["POST"])
 def submit():
     if request.method == "POST":
-        data = request.form['input_data']
-        print("Input Data:", data)
+        username = request.form['username']
+        print("Username:", username)
+        password = request.form['password']
+        print("Password:", password)
+        file = request.form['file']
+        print("File:", file)
     return "Data Received"
 
 if __name__ == "__main__":
