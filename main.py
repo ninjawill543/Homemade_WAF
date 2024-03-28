@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 import logging
 
 app = Flask(__name__)
@@ -27,7 +27,7 @@ def submit_sql():
         password = request.form['password']
         print(f"Username: {username} Password: {password}")
         app.logger.info(f"Username: {username} ; Password: {password};")
-    return "Data received"
+    return redirect("/", code=302)
 
 @app.route("/submit_xss", methods=["POST"])
 def submit_xss():
@@ -35,7 +35,7 @@ def submit_xss():
         input = request.form['input']
         print(f"Input: {input}")
         app.logger.info(f"XSS input: {input};")
-    return "Data received"
+    return redirect("/", code=302)
 
 @app.route("/submit_image", methods=["POST"])
 def submit_image():
@@ -43,7 +43,7 @@ def submit_image():
         file = request.form['file']
         print(f"File: {file}")
         app.logger.info(f"File: {file};")
-    return "Data received"
+    return redirect("/", code=302)
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0')
