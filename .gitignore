@@ -1,3 +1,7 @@
+### App ###
+# Logs
+logs.txt
+
 ### Vim ###
 # Swap
 [._]*.s[a-v][a-z]
