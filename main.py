@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request
+import logging
 
 app = Flask(__name__)
+logging.basicConfig(filename="logs.txt", level=logging.DEBUG, format=f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 
 @app.route("/")
 def home():
@@ -10,13 +12,10 @@ def home():
 def submit():
     if request.method == "POST":
         username = request.form['username']
-        print("Username:", username)
         password = request.form['password']
-        print("Password:", password)
         file = request.form['file']
-        print("File:", file)
-    return "Data Received"
+        app.logger.info(f"Username: {username} ; Password: {password} ; File: {file}")
+    return "Data received"
 
 if __name__ == "__main__":
     app.run(debug=True)
-
