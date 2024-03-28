@@ -46,4 +46,5 @@ def submit_image():
     return redirect("/", code=302)
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0')
+    # app.run(debug=True, host='0.0.0.0') Enable this to open for everyone
+    app.run(debug=True)
