@@ -78,11 +78,11 @@ def sql():
     if request.method == "GET":
         return render_template("sql_test.html")
     elif request.method == "POST":
-        username = request.form['username']
-        password = request.form['password']
+        user = request.form['user']
+        passw = request.form['passw']
         con = sqlite3.connect('supersecure.db')
-        c =  con.cursor() 
-        c.execute("INSERT INTO users (username,password) VALUES (?,?)",(username,password) )
+        c = con.cursor() 
+        c.execute(f"INSERT INTO users (username, password) VALUES ('{user}', '{passw}')")
         con.commit()
     return redirect("/", code=302)
 
