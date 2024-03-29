@@ -68,13 +68,13 @@ def sql():
 def image():
     global SITE_NAME
     if request.method=="GET":
-        resp = requests.get(f"{SITE_NAME}/sql")
+        resp = requests.get(f"{SITE_NAME}/image")
         excluded_headers = ["content-encoding", "content-length", "transfer-encoding", "connection"]
         headers = [(name, value) for (name, value) in  resp.raw.headers.items() if name.lower() not in excluded_headers]
         response = Response(resp.content, resp.status_code, headers)
         return response
     elif request.method=="POST":
-        resp = requests.post(f"{SITE_NAME}/sql",data=request.form)
+        resp = requests.post(f"{SITE_NAME}/image",data=request.form)
         excluded_headers = ["content-encoding", "content-length", "transfer-encoding", "connection"]
         headers = [(name, value) for (name, value) in resp.raw.headers.items() if name.lower() not in excluded_headers]
         response = Response(resp.content, resp.status_code, headers)

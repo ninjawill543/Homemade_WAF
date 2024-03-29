@@ -80,10 +80,10 @@ def sql():
     elif request.method == "POST":
         username = request.form['username']
         password = request.form['password']
+        con = sqlite3.connect('supersecure.db')
+        c =  con.cursor() 
         c.execute("INSERT INTO users (username,password) VALUES (?,?)",(username,password) )
-        conn.commit()
-        msg = "Record successfully added"
-        conn.close()
+        con.commit()
     return redirect("/", code=302)
 
 if __name__ == "__main__":
