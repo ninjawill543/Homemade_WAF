@@ -1,13 +1,16 @@
 from flask import Flask,request,redirect,Response
 import requests
+import logging
 app = Flask(__name__)
 SITE_NAME = "http://localhost:6969"
+
+logging.basicConfig(filename="logs.txt", filemode="w", format="%(asctime)s;%(message)s", datefmt="%y-%m-%d %H:%M:%S", level=logging.INFO)
+logging.info("coucou")
 
 @app.route("/",methods=['GET','POST'])
 def index():
     global SITE_NAME
     if request.method=="GET":
-
         resp = requests.get(f"{SITE_NAME}")
         excluded_headers = ["content-encoding", "content-length", "transfer-encoding", "connection"]
         headers = [(name, value) for (name, value) in  resp.raw.headers.items() if name.lower() not in excluded_headers]
