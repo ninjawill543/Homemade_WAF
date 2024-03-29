@@ -11,6 +11,15 @@
     <input id="user" name="user" placeholder="username"/>
     <input id="passw" name="passw" placeholder="password" type="password"/>
     <button type="submit">Send</button>
+    <table id="demo">
+        {% for u in usr %}
+        <tr>
+          <td>{{ u[0] }}</td>
+          <td>{{ u[1] }}</td>
+          <td>{{ u[2] }}</td>
+        </tr>
+        {% endfor %}
+      </table>
 </form>
 </body>
 </html>

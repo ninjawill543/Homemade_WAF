@@ -73,19 +73,31 @@ def xss():
         print(f"Input: {input}")
     return redirect("/", code=302)
 
+def getusers():
+  conn = sqlite3.connect("supersecure.db")
+  cursor = conn.cursor()
+  cursor.execute("SELECT username FROM `users`")
+  results = cursor.fetchall()
+  conn.close()
+  return results
+
 @app.route("/sql", methods=["GET", "POST"])
 def sql():
     if request.method == "GET":
-        return render_template("sql_test.html")
+        users = getusers()
+        print(users)
+        return render_template("sql_test.html", usr=users)
     elif request.method == "POST":
         user = request.form['user']
         passw = request.form['passw']
         con = sqlite3.connect('supersecure.db')
         c = con.cursor() 
-        c.execute(f"INSERT INTO users (username, password) VALUES ('{user}', '{passw}')")
+        # c.execute(f"INSERT INTO users (username, password) VALUES ('{user}', '{passw}')") Unsecure!
+        c.execute("INSERT INTO users (username,password) VALUES (?,?)",(user,passw) )
         con.commit()
-    return redirect("/", code=302)
+    # return redirect("/", code=302)
+    return redirect("/sql", code=302)
 
 if __name__ == "__main__":
     # app.run(debug=True, host='0.0.0.0') Enable this to open for everyone
-    app.run(debug= True, port=6969)
+    app.run(debug=False, port=6969)
