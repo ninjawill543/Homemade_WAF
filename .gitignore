@@ -2,6 +2,7 @@
 # Logs
 logs.txt
 supersecure.db
+__pycache__/
 
 ### Vim ###
 # Swap
