@@ -26,13 +26,13 @@ def xss():
     # return f"XSS Input: {input_data}"
     global SITE_NAME
     if request.method=="GET":
-        resp = requests.get(f"{SITE_NAME}")
+        resp = requests.get(f"{SITE_NAME}/xss")
         excluded_headers = ["content-encoding", "content-length", "transfer-encoding", "connection"]
         headers = [(name, value) for (name, value) in  resp.raw.headers.items() if name.lower() not in excluded_headers]
         response = Response(resp.content, resp.status_code, headers)
         return response
     elif request.method=="POST":
-        resp = requests.post(f"{SITE_NAME}",data=request.form)
+        resp = requests.post(f"{SITE_NAME}/xss",data=request.form)
         excluded_headers = ["content-encoding", "content-length", "transfer-encoding", "connection"]
         headers = [(name, value) for (name, value) in resp.raw.headers.items() if name.lower() not in excluded_headers]
         response = Response(resp.content, resp.status_code, headers)
@@ -42,13 +42,13 @@ def xss():
 def sql():
     global SITE_NAME
     if request.method=="GET":
-        resp = requests.get(f"{SITE_NAME}")
+        resp = requests.get(f"{SITE_NAME}/sql")
         excluded_headers = ["content-encoding", "content-length", "transfer-encoding", "connection"]
         headers = [(name, value) for (name, value) in  resp.raw.headers.items() if name.lower() not in excluded_headers]
         response = Response(resp.content, resp.status_code, headers)
         return response
     elif request.method=="POST":
-        resp = requests.post(f"{SITE_NAME}",data=request.form)
+        resp = requests.post(f"{SITE_NAME}/sql",data=request.form)
         excluded_headers = ["content-encoding", "content-length", "transfer-encoding", "connection"]
         headers = [(name, value) for (name, value) in resp.raw.headers.items() if name.lower() not in excluded_headers]
         response = Response(resp.content, resp.status_code, headers)
@@ -62,13 +62,13 @@ def sql():
 def image():
     global SITE_NAME
     if request.method=="GET":
-        resp = requests.get(f"{SITE_NAME}")
+        resp = requests.get(f"{SITE_NAME}/sql")
         excluded_headers = ["content-encoding", "content-length", "transfer-encoding", "connection"]
         headers = [(name, value) for (name, value) in  resp.raw.headers.items() if name.lower() not in excluded_headers]
         response = Response(resp.content, resp.status_code, headers)
         return response
     elif request.method=="POST":
-        resp = requests.post(f"{SITE_NAME}",data=request.form)
+        resp = requests.post(f"{SITE_NAME}/sql",data=request.form)
         excluded_headers = ["content-encoding", "content-length", "transfer-encoding", "connection"]
         headers = [(name, value) for (name, value) in resp.raw.headers.items() if name.lower() not in excluded_headers]
         response = Response(resp.content, resp.status_code, headers)
