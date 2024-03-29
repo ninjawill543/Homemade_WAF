@@ -1,6 +1,17 @@
 from flask import Flask,request,redirect,Response, render_template
 import requests
 
+
+
+# import sqlite3
+
+# conn = sqlite3.connect('supersecure') 
+# c = conn.cursor()
+
+# c.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT, password TEXT)")
+                     
+# conn.commit()
+
 app = Flask(__name__)
 # logging.basicConfig(filename="logs.txt", level=logging.DEBUG, format=f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 
