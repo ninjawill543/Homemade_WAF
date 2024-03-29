@@ -6,7 +6,7 @@ conn = sqlite3.connect('supersecure.db')
 c = conn.cursor()
 
 c.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT)")
-                     
+c.execute("CREATE TABLE IF NOT EXISTS comments (id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT)")                   
 conn.commit()
 
 conn.close()
@@ -62,7 +62,7 @@ def image():
     elif request.method == "POST":
         file = request.form['file']
         print(f"File: {file}")
-    return redirect("/", code=302)
+    return redirect("/image", code=302)
 
 @app.route("/xss", methods=["GET", "POST"])
 def xss():
@@ -71,7 +71,7 @@ def xss():
     elif request.method == "POST":
         input = request.form['input']
         print(f"Input: {input}")
-    return redirect("/", code=302)
+    return redirect("/xss", code=302)
 
 def getusers():
   conn = sqlite3.connect("supersecure.db")
@@ -85,19 +85,28 @@ def getusers():
 def sql():
     if request.method == "GET":
         users = getusers()
-        print(users)
         return render_template("sql_test.html", usr=users)
+        users=""
     elif request.method == "POST":
         user = request.form['user']
         passw = request.form['passw']
         con = sqlite3.connect('supersecure.db')
         c = con.cursor() 
-        # c.execute(f"INSERT INTO users (username, password) VALUES ('{user}', '{passw}')") Unsecure!
-        c.execute("INSERT INTO users (username,password) VALUES (?,?)",(user,passw) )
+        c.execute(f"INSERT INTO users (username, password) VALUES ('{user}', '{passw}')") 
+        #c.execute("INSERT INTO users (username,password) VALUES (?,?)",(user,passw) ) Secure
         con.commit()
     # return redirect("/", code=302)
     return redirect("/sql", code=302)
 
+# @app.route("/login", methods=["GET", "POST"])
+# def login():
+#     if request.method == "GET":
+#         return render_template("xss_test.html")
+#     elif request.method == "POST":
+#         input = request.form['input']
+#         print(f"Input: {input}")
+#     return redirect("/login", code=302)
+
 if __name__ == "__main__":
     # app.run(debug=True, host='0.0.0.0') Enable this to open for everyone
-    app.run(debug=False, port=6969)
+    app.run(debug=True, port=6969)
