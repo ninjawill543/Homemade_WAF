@@ -1,7 +1,11 @@
 ### App ###
 # Logs
 logs.txt
+
+#Database
 supersecure.db
+
+#python
 __pycache__/
 
 ### Vim ###
