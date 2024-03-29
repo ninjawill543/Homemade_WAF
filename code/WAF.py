@@ -1,11 +1,14 @@
 from flask import Flask,request,redirect,Response
 import requests
-import logging
+import datetime 
+
 app = Flask(__name__)
 SITE_NAME = "http://localhost:6969"
 
-logging.basicConfig(filename="logs.txt", filemode="w", format="%(asctime)s;%(message)s", datefmt="%y-%m-%d %H:%M:%S", level=logging.INFO)
-logging.info("coucou")
+@app.before_request 
+def before_request_callback():
+    with open("logs.txt", "a") as f:
+        f.write(f"{datetime.datetime.now()};{request.remote_addr};{request.method};{request.path};{request.values}\n")
 
 @app.route("/",methods=['GET','POST'])
 def index():
