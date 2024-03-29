@@ -59,7 +59,7 @@ def xss():
     if request.method == "GET":
         return render_template("xss_test.html")
     elif request.method == "POST":
-         input = request.form['input']
+        input = request.form['input']
         print(f"Input: {input}")
     return redirect("/", code=302)
 

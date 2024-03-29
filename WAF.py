@@ -7,6 +7,7 @@ SITE_NAME = "http://localhost:6969"
 def index():
     global SITE_NAME
     if request.method=="GET":
+
         resp = requests.get(f"{SITE_NAME}")
         excluded_headers = ["content-encoding", "content-length", "transfer-encoding", "connection"]
         headers = [(name, value) for (name, value) in  resp.raw.headers.items() if name.lower() not in excluded_headers]
