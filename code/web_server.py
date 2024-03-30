@@ -1,6 +1,7 @@
 from flask import Flask,request,redirect,Response, render_template
 import requests
 import sqlite3
+import os
 
 conn = sqlite3.connect('supersecure.db') 
 c = conn.cursor()
@@ -60,9 +61,9 @@ def image():
     if request.method == "GET":
         return render_template("image_test.html")
     elif request.method == "POST":
-        file = request.form['file']
-        print(f"File: {file}")
-    return redirect("/image", code=302)
+        file = request.files['file']
+        file.save(os.path.join(app.root_path, '../', file.filename))
+        return redirect(request.url)
 
 
 def getcomments():
@@ -103,13 +104,13 @@ def xss():
 
 
 
-def getusers():
-  conn = sqlite3.connect("supersecure.db")
-  cursor = conn.cursor()
-  cursor.execute("SELECT username FROM `users`")
-  results = cursor.fetchall()
-  conn.close()
-  return results
+# def getusers():
+#   conn = sqlite3.connect("supersecure.db")
+#   cursor = conn.cursor()
+#   cursor.execute("SELECT username FROM `users`")
+#   results = cursor.fetchall()
+#   conn.close()
+#   return results
 
 @app.route("/sql", methods=["GET", "POST"])
 def sql():
