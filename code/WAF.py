@@ -44,6 +44,16 @@ def xss():
         response = Response(resp.content, resp.status_code, headers)
         return response
 
+@app.route("/delete_comment", methods=['POST'])
+def delete_comment():
+    global SITE_NAME
+    if request.method=="POST":
+        resp = requests.post(f"{SITE_NAME}/delete_comment",data=request.form)
+        excluded_headers = ["content-encoding", "content-length", "transfer-encoding", "connection"]
+        headers = [(name, value) for (name, value) in resp.raw.headers.items() if name.lower() not in excluded_headers]
+        response = Response(resp.content, resp.status_code, headers)
+        return response
+
 @app.route("/sql", methods=['GET','POST'])
 def sql():
     global SITE_NAME

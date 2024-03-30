@@ -115,9 +115,9 @@ def xss():
 @app.route("/sql", methods=["GET", "POST"])
 def sql():
     if request.method == "GET":
-        users = getusers()
-        return render_template("sql_test.html", usr=users)
-        users=""
+        # users = getusers()
+        return render_template("sql_test.html")
+        # users=""
     elif request.method == "POST":
         user = request.form['user']
         passw = request.form['passw']
