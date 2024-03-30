@@ -66,29 +66,42 @@ def image():
 
 
 def getcomments():
-  conn = sqlite3.connect("supersecure.db")
-  cursor = conn.cursor()
-  cursor.execute("SELECT text FROM `comments`")
-  results = cursor.fetchall()
-  conn.close()
-  return results
+    conn = sqlite3.connect("supersecure.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT id, text FROM comments")
+    results = cursor.fetchall()
+    conn.close()
+    return results
+
+
+@app.route("/delete_comment", methods=["POST"])
+def delete_comment():
+    if request.method == "POST":
+        comment = request.form['comment_id']
+        con = sqlite3.connect('supersecure.db')
+        c = con.cursor() 
+        c.execute(f"DELETE FROM comments WHERE id = ?", (comment,))
+        con.commit()
+        con.close()
+    return redirect("/xss", code=302)
 
 @app.route("/xss", methods=["GET", "POST"])
 def xss():
     if request.method == "GET":
         comments = getcomments()
         return render_template("xss_test.html", cmnt=comments)
-        comments=""
     elif request.method == "POST":
-        input = request.form['input']
-        print(f"Input: {input}")
+        input_text = request.form['input']
+        print(f"Input: {input_text}")
         comment = request.form['input']
         con = sqlite3.connect('supersecure.db')
         c = con.cursor() 
-        c.execute(f"INSERT INTO comments (text) VALUES ('{comment}')") 
-        #c.execute("INSERT INTO users (username,password) VALUES (?,?)",(user,passw) ) Secure
+        c.execute("INSERT INTO comments (text) VALUES (?)", (comment,))
         con.commit()
+        con.close()
     return redirect("/xss", code=302)
+
+
 
 def getusers():
   conn = sqlite3.connect("supersecure.db")
@@ -123,6 +136,8 @@ def sql():
 #         input = request.form['input']
 #         print(f"Input: {input}")
 #     return redirect("/login", code=302)
+
+
 
 if __name__ == "__main__":
     # app.run(debug=True, host='0.0.0.0') Enable this to open for everyone

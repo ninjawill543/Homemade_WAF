@@ -12,10 +12,14 @@
     <input id="input" name="input" placeholder="input"/>
     <button type="submit">Send</button>
    </form>
-   {% for c in cmnt %}
+   {% for c_id, c_text in cmnt %}
       <div>
-        <!-- Disable autoescaping for comments -->
-        {{ c | safe }}
+        {{ c_text | safe }}
+        <form action="/delete_comment" method="post">
+            <input type="hidden" name="comment_id" value="{{ c_id }}">
+            <input type="hidden" name="comment_text" value="{{ c_text }}">
+            <button type="submit">Delete</button>
+        </form>
       </div>
     {% endfor %}
 </body>
