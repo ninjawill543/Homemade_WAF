@@ -1,4 +1,4 @@
-from flask import Flask,request,redirect,Response
+from flask import Flask,request,redirect,Response,abort
 import requests
 import datetime 
 
@@ -7,8 +7,12 @@ SITE_NAME = "http://localhost:6969"
 
 @app.before_request 
 def before_request_callback():
+    pls = True
+    if (pls != True):
+        abort(400, 'no good')
+
     with open("logs.txt", "a") as f:
-        f.write(f"{datetime.datetime.now()};{request.remote_addr};{request.method};{request.path};{request.values}\n")
+        f.write(f"{datetime.datetime.now()};{request.remote_addr};{request.method};{request.path};{request.values};{request.mimetype};{request.headers.get('User-Agent')};{request.headers.get('Accept')};{request.headers.get('Content-Type')};{request.headers.get('Content-Length')}\n")
 
 @app.route("/",methods=['GET','POST'])
 def index():
