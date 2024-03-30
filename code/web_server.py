@@ -122,7 +122,7 @@ def sql():
         passw = request.form['passw']
         con = sqlite3.connect('supersecure.db')
         c = con.cursor() 
-        c.execute(f"INSERT INTO users (username, password) VALUES ('{user}', '{passw}')") 
+        c.executescript("INSERT INTO users (username, password) VALUES ('%s', '%s')" % (user, passw))
         #c.execute("INSERT INTO users (username,password) VALUES (?,?)",(user,passw) ) Secure
         con.commit()
     # return redirect("/", code=302)
