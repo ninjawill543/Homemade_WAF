@@ -64,13 +64,30 @@ def image():
         print(f"File: {file}")
     return redirect("/image", code=302)
 
+
+def getcomments():
+  conn = sqlite3.connect("supersecure.db")
+  cursor = conn.cursor()
+  cursor.execute("SELECT text FROM `comments`")
+  results = cursor.fetchall()
+  conn.close()
+  return results
+
 @app.route("/xss", methods=["GET", "POST"])
 def xss():
     if request.method == "GET":
-        return render_template("xss_test.html")
+        comments = getcomments()
+        return render_template("xss_test.html", cmnt=comments)
+        comments=""
     elif request.method == "POST":
         input = request.form['input']
         print(f"Input: {input}")
+        comment = request.form['input']
+        con = sqlite3.connect('supersecure.db')
+        c = con.cursor() 
+        c.execute(f"INSERT INTO comments (text) VALUES ('{comment}')") 
+        #c.execute("INSERT INTO users (username,password) VALUES (?,?)",(user,passw) ) Secure
+        con.commit()
     return redirect("/xss", code=302)
 
 def getusers():
