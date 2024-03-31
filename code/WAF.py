@@ -1,15 +1,20 @@
 from flask import Flask,request,redirect,Response,abort
 import requests
 import datetime 
+from checks.sql import sql_check
 
 app = Flask(__name__)
 SITE_NAME = "http://localhost:6969"
 
 @app.before_request 
 def before_request_callback():
-    pls = True
-    if (pls != True):
-        abort(400, 'no good')
+    
+    if (request.path == "/sql"):
+        if (request.values.get('user') == "" and request.values.get('passw') != ""):
+            abort(400, 'Username cannot be empty')
+        elif (request.values.get('passw') == "" and request.values.get('user') != ""):
+            abort(400, 'Password cannot be empty')
+
     
     # Maybe rather than writing to logs, we check in real time and then abort if not good
     with open("logs.txt", "a") as f:
