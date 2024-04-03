@@ -8,15 +8,9 @@ SITE_NAME = "http://localhost:6969"
 
 @app.before_request 
 def before_request_callback():
-    
     if (request.path == "/sql"):
-        if (request.values.get('user') == "" and request.values.get('passw') != ""):
-            abort(400, 'Username cannot be empty')
-        elif (request.values.get('passw') == "" and request.values.get('user') != ""):
-            abort(400, 'Password cannot be empty')
-
+        sql_check(request.values.get('user'), request.values.get('passw'), request.path)
     
-    # Maybe rather than writing to logs, we check in real time and then abort if not good
     with open("logs.txt", "a") as f:
         f.write(f"{datetime.datetime.now()};{request.remote_addr};{request.method};{request.path};{request.values};{request.mimetype};{request.headers.get('User-Agent')};{request.headers.get('Accept')};{request.headers.get('Content-Type')};{request.headers.get('Content-Length')}\n")
 
