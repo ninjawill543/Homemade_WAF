@@ -1,5 +1,6 @@
 from flask import abort, redirect
 import csv
+import json
 
 def sql_check(input1, input2, path, method):
     if (method == "POST"):
@@ -13,17 +14,15 @@ def sql_check(input1, input2, path, method):
             print(input1.lower(), input2.lower())
             chars = [chr(x) for x in range(33, 127) if not chr(x).isalnum()]
             # print (len(chars))
-            import json
- 
-            f = open('checks/sql.json')
-
-            data = json.load(f)
             
+            file_path = 'checks/sql.json' 
+            with open(file_path, 'r') as file:
+                data = file.read()
+            parsed_data = json.loads(data)
 
-            for i in data['rules']:
-                print(i)
-            
-            f.close()
+            print(parsed_data["rules"][0]["rule"][0])
+
+
     
         
     
