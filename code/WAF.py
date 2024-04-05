@@ -9,7 +9,7 @@ SITE_NAME = "http://localhost:6969"
 @app.before_request 
 def before_request_callback():
     if (request.path == "/sql"):
-        sql_check(request.values.get('user'), request.values.get('passw'), request.path)
+        sql_check(request.values.get('user'), request.values.get('passw'), request.path, request.method)
     
     with open("logs.txt", "a") as f:
         f.write(f"{datetime.datetime.now()};{request.remote_addr};{request.method};{request.path};{request.values};{request.mimetype};{request.headers.get('User-Agent')};{request.headers.get('Accept')};{request.headers.get('Content-Type')};{request.headers.get('Content-Length')}\n")

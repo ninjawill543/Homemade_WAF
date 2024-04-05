@@ -1,0 +1,59 @@
+('
+')
+%27
+\x22
+%22
+char
+;
+ascii
+%3B
+%2B
+--
+%2D%2D
+/*
+%2F%2A
+*/
+%2A%2F
+substring
+drop table
+drop+table
+insert into
+insert+into
+version(
+values
+group by
+group+by
+create table
+create+table
+delete
+update
+bulk insert
+bulk+insert
+load_file
+shutdown
+union
+having
+select
+declare
+exec
+and
+or
+like
+@@hostname
+@@tmpdir
+is null
+is+null
+is not null
+is+not+null
+%3D
+concat
+%40%40basedir
+version%28,user(
+user%28,system_user(
+(,%28,)
+%29
+@
+%40
+cast
+
+

@@ -1,0 +1,61 @@
+{
+    "rules": [
+      {
+        "rule": ["drop table", "drop+table", "insert into", "insert+into", "values\\W", "create table", "create+table", "delete\\W", "update\\W", "bulk insert", "bulk+insert", "shutdown\\W", "from\\W"],
+        "points": 2
+      },
+      {
+        "rule": ["declare\\W", "select\\W"],
+        "points": 2
+      },
+      {
+        "rule": ["cast\\W", "exec\\W", "load_file"],
+        "points": 2
+      },
+      {
+        "rule": ["union\\W", "group by", "group+by", "order by", "order+by", "having\\W"],
+        "points": 2
+      },
+      {
+        "rule": ["and\\W", "or\\W", "like\\W", "is null", "is+null", "is not null", "is+not+null", "where\\W"],
+        "points": 1
+      },
+      {
+        "rule": ["--", "%2D%2D", "/*", "%2F%2A", "*/", "%2A%2F"],
+        "points": 1
+      },
+      {
+        "rule": ["'", "%27", "\\x22", "%22", "char\\W"],
+        "points": 1
+      },
+      {
+        "rule": [";", "%3B"],
+        "points": 1
+      },
+      {
+        "rule": ["%2B", "CONCAT\\W"],
+        "points": 1
+      },
+      {
+        "rule": ["%3D"],
+        "points": 1
+      },
+      {
+        "rule": ["(", "%28", ")", "%29", "@", "%40"],
+        "points": 1
+      },
+      {
+        "rule": ["ascii", "substring"],
+        "points": 1
+      },
+      {
+        "rule": ["version(", "version%28", "user(", "user%28", "system_user(", "system_user%28", "databas"],
+        "points": 2
+      },
+      {
+        "rule": ["(", "database%28", "@@hostname", "%40%40hostname", "@@basedir", "%40%40basedir", "@@tmpdir", "%40%40tmpdir", "@@datadir", "%40%40datadir"],
+        "points": 2
+      }
+    ]
+  }
+  
