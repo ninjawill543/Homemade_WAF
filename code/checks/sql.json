@@ -62,12 +62,7 @@
       },
       {
         "name": "Group13",
-        "rule": ["version(", "version%28", "user(", "user%28", "system_user(", "system_user%28", "databas"],
-        "points": 2
-      },
-      {
-        "name": "Group14",
-        "rule": ["(", "database%28", "@@hostname", "%40%40hostname", "@@basedir", "%40%40basedir", "@@tmpdir", "%40%40tmpdir", "@@datadir", "%40%40datadir"],
+        "rule": ["version(", "version%28", "user(", "user%28", "system_user(", "system_user%28", "database(", "database%28", "@@hostname", "%40%40hostname", "@@basedir", "%40%40basedir", "@@tmpdir", "%40%40tmpdir", "@@datadir", "%40%40datadir"],
         "points": 2
       }
     ]
