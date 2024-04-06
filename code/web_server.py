@@ -3,6 +3,7 @@ import requests
 import sqlite3
 import os
 
+
 conn = sqlite3.connect('supersecure.db') 
 c = conn.cursor()
 

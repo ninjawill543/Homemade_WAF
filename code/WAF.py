@@ -2,7 +2,10 @@ from flask import Flask,request,redirect,Response,abort
 import requests
 import datetime 
 from checks.sql import sql_check
+import os
 
+if not os.path.exists("../logs"):
+    os.makedirs("../logs")
 app = Flask(__name__)
 SITE_NAME = "http://localhost:6969"
 
