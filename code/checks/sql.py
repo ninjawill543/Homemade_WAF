@@ -1,18 +1,32 @@
 from flask import abort, redirect
 import csv
 import json
+import datetime 
+
 
 log_value = 3
 drop_value = 4
 
 def score(data, in1, in2):
-    counter = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    user_counter = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    pass_counter = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     for i in range(0,13):
         for j in range (len((data["rules"][i]["rule"]))):
             if (data["rules"][i]["rule"][j]) in in1:
-                counter[i] = (data["rules"][i]["points"])
-    print(counter)
-    print(sum(counter))
+                user_counter[i] = (data["rules"][i]["points"])
+            elif (data["rules"][i]["rule"][j]) in in2:
+                pass_counter[i] = (data["rules"][i]["points"])
+    print(sum(user_counter))
+    print(sum(pass_counter))
+    print(user_counter)
+    print(pass_counter)
+    if sum(user_counter) >= 4 or sum(pass_counter) >= 4:
+        with open("../logs/sql_log.txt", "a") as f:
+            f.write(f"{datetime.datetime.now()};Username:{in1};Password:{in2};UserScore:{sum(user_counter)};PassScore:{sum(pass_counter)}\n")
+        abort(400, 'Access denied: SQL Injection detected')
+    elif sum(user_counter) >= 3 or sum(pass_counter) >= 3:
+        with open("../logs/sql_log.txt", "a") as f:
+            f.write(f"{datetime.datetime.now()};Username:{in1};Password:{in2};UserScore:{sum(user_counter)};PassScore:{sum(pass_counter)}\n")
 
 def sql_check(input1, input2, path, method):
     if (method == "POST"):

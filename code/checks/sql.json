@@ -7,7 +7,7 @@
       },
       {
         "name": "Group2",
-        "rule": ["declare\\W", "select\\W"],
+        "rule": ["declare\\W", "select"],
         "points": 2
       },
       {
