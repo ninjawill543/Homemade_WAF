@@ -43,10 +43,6 @@ def sql_check(input1, input2, path, method):
             score(parsed_data, input1.lower(), input2.lower())
 
 
-    
-        
-    
-    # with open("checks/sql.csv", "r") as f:
-    #     print(list(csv.reader(f)))
+
     
     

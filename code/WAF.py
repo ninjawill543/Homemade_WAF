@@ -2,6 +2,7 @@ from flask import Flask,request,redirect,Response,abort
 import requests
 import datetime 
 from checks.sql import sql_check
+from checks.xss import xss_check
 import os
 
 if not os.path.exists("../logs"):
@@ -13,6 +14,9 @@ SITE_NAME = "http://localhost:6969"
 def before_request_callback():
     if (request.path == "/sql"):
         sql_check(request.values.get('user'), request.values.get('passw'), request.path, request.method)
+
+    if (request.path == "/xss"):
+        xss_check(request.values.get('input'), request.path, request.method)
     
     with open("../logs/logs.txt", "a") as f:
         f.write(f"{datetime.datetime.now()};{request.remote_addr};{request.method};{request.path};{request.values};{request.mimetype};{request.headers.get('User-Agent')};{request.headers.get('Accept')};{request.headers.get('Content-Type')};{request.headers.get('Content-Length')}\n")
