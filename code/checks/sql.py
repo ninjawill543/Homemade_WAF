@@ -19,7 +19,7 @@ def score(data, in1, in2):
     if sum(user_counter) >= 4 or sum(pass_counter) >= 4:
         with open("../logs/sql_log.txt", "a") as f:
             f.write(f"{datetime.datetime.now()};Username:{in1};Password:{in2};UserScore:{sum(user_counter)};PassScore:{sum(pass_counter)}\n")
-        abort(400, 'Access denied: SQL Injection detected')
+        abort(400, 'Access denied: SQL Injection detected. Your actions have been logged!')
     elif sum(user_counter) >= 3 or sum(pass_counter) >= 3:
         with open("../logs/sql_log.txt", "a") as f:
             f.write(f"{datetime.datetime.now()};Username:{in1};Password:{in2};UserScore:{sum(user_counter)};PassScore:{sum(pass_counter)}\n")
