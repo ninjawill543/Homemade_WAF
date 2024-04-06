@@ -16,10 +16,6 @@ def score(data, in1, in2):
                 user_counter[i] = (data["rules"][i]["points"])
             elif (data["rules"][i]["rule"][j]) in in2:
                 pass_counter[i] = (data["rules"][i]["points"])
-    print(sum(user_counter))
-    print(sum(pass_counter))
-    print(user_counter)
-    print(pass_counter)
     if sum(user_counter) >= 4 or sum(pass_counter) >= 4:
         with open("../logs/sql_log.txt", "a") as f:
             f.write(f"{datetime.datetime.now()};Username:{in1};Password:{in2};UserScore:{sum(user_counter)};PassScore:{sum(pass_counter)}\n")
@@ -38,7 +34,6 @@ def sql_check(input1, input2, path, method):
             abort(400, 'Cannot send empty request')
         else:
             chars = [chr(x) for x in range(33, 127) if not chr(x).isalnum()]
-            # print (len(chars))
             
             file_path = 'checks/sql.json' 
             with open(file_path, 'r') as file:
