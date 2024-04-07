@@ -9,7 +9,7 @@ This project implements a homemade Web Application Firewall (WAF) using Flask as
 - **Intentionally Vulnerable Web Server**: To test our WAF, we implemented certain security vulnerabilities into our web server, such as:
     - SQL Injections: ```"INSERT INTO users (username, password) VALUES ('%s', '%s')" % (user, passw)```
     - Stored XSS: ```{% autoescape true %}``` and ```{{ c_text | safe }}```
-    - Inprotected file upload:
+    - Unprotected file upload:
 
 - **Reverse Proxy**: Acts as a reverse proxy to the insecure Flask web server, intercepting incoming requests and forwarding them appropriately.
 
@@ -41,6 +41,5 @@ This project is licensed under the [MIT License](LICENSE).
 ## Hacking
 
 https://github.com/ninjawill543/Homemade_WAF/assets/112950582/468efb5d-788e-4abf-826f-95f35d929369
-s
 
 
