@@ -9,13 +9,14 @@ import datetime
 
 app = Flask(__name__)
 
-
 if not os.path.exists("../logs"):
     os.makedirs("../logs")
 
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
 SITE_NAME = "http://localhost:6969"
+
+CSP_POLICY = "default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' https://fonts.googleapis.com; img-src 'self' data:;"
 
 @app.before_request 
 def before_request_callback():
@@ -37,6 +38,8 @@ def index():
     
     excluded_headers = ["content-encoding", "content-length", "transfer-encoding", "connection"]
     headers = [(name, value) for (name, value) in resp.raw.headers.items() if name.lower() not in excluded_headers]
+    # Add CSP header to the response
+    headers.append(('Content-Security-Policy', CSP_POLICY))
     response = Response(resp.content, resp.status_code, headers)
     return response
 
@@ -49,6 +52,8 @@ def proxy(path):
     
     excluded_headers = ["content-encoding", "content-length", "transfer-encoding", "connection"]
     headers = [(name, value) for (name, value) in resp.raw.headers.items() if name.lower() not in excluded_headers]
+    # Add CSP header to the response
+    headers.append(('Content-Security-Policy', CSP_POLICY))
     response = Response(resp.content, resp.status_code, headers)
     return response
 
