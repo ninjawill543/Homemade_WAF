@@ -1,16 +1,3 @@
-# Homemade WAF
-
--   Malicious ip / ddos
--   User agent, content type, http verb
--   Sql/xss 
--   Image upload check: gif/jpeg/jpg/png
--   Anti Bot
-
-
-
-https://github.com/ninjawill543/Homemade_WAF/assets/112950582/468efb5d-788e-4abf-826f-95f35d929369
-
-
 # Homemade Web Application Firewall (WAF)
 
 ## Overview
@@ -19,7 +6,7 @@ This project implements a homemade Web Application Firewall (WAF) using Flask as
 
 ## Features
 
-- **Intentionally vulnerable web server**: 
+- **Intentionally Vulnerable Web Server**: 
 
 - **Reverse Proxy**: Acts as a reverse proxy to the insecure Flask web server, intercepting incoming requests and forwarding them appropriately.
 
@@ -29,13 +16,13 @@ This project implements a homemade Web Application Firewall (WAF) using Flask as
 
 - **Malicious IP and DDOS protection**: 
 
-- **Upgrades HTTP connections to HTTPS**:
-
-- **HTTP verb checking**:
+- **HTTP Verb Checking**: Only allows GET and POST requests to the site.
 
 - **Anti-Bot Protection**:
 
-- **File upload Protection**:
+- **File Upload Protection**: Makes sure that all uploaded files are images.
+
+- **HTTPS Connection**
 
 
 ## Usage
@@ -46,5 +33,11 @@ This project implements a homemade Web Application Firewall (WAF) using Flask as
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
+
+
+## Hacking
+
+https://github.com/ninjawill543/Homemade_WAF/assets/112950582/468efb5d-788e-4abf-826f-95f35d929369
+s
 
 
