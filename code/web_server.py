@@ -14,48 +14,10 @@ conn.commit()
 conn.close()
 
 app = Flask(__name__)
-# logging.basicConfig(filename="logs.txt", level=logging.DEBUG, format=f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 
 @app.route("/")
 def home():
     return render_template("home.html")
-
-# @app.route("/xss")
-# def xss():
-#     return render_template("xss_test.html")
-
-# @app.route("/sql")
-# def sql():
-#     return render_template("sql_test.html")
-
-# @app.route("/image")
-# def image():
-#     return render_template("image_test.html")
-
-# @app.route("/submit_sql", methods=["POST"])
-# def submit_sql():
-#     if request.method == "POST":
-#         username = request.form['username']
-#         password = request.form['password']
-#         print(f"Username: {username} Password: {password}")
-#         # app.logger.info(f"Username: {username} ; Password: {password};")
-#     return redirect("/", code=302)
-
-# @app.route("/submit_xss", methods=["POST"])
-# def submit_xss():
-#     if request.method == "POST":
-#         input = request.form['input']
-#         print(f"Input: {input}")
-#         # app.logger.info(f"XSS input: {input};")
-#     return redirect("/", code=302)
-
-# @app.route("/submit_image", methods=["POST"])
-# def submit_image():
-#     if request.method == "POST":
-#         file = request.form['file']
-#         print(f"File: {file}")
-#         # app.logger.info(f"File: {file};")
-#     return redirect("/", code=302)
 
 @app.route("/image", methods=["GET", "POST"])
 def image():
@@ -103,42 +65,18 @@ def xss():
         con.close()
     return redirect("/xss", code=302)
 
-
-
-# def getusers():
-#   conn = sqlite3.connect("supersecure.db")
-#   cursor = conn.cursor()
-#   cursor.execute("SELECT username FROM `users`")
-#   results = cursor.fetchall()
-#   conn.close()
-#   return results
-
 @app.route("/sql", methods=["GET", "POST"])
 def sql():
     if request.method == "GET":
-        # users = getusers()
         return render_template("sql_test.html")
-        # users=""
     elif request.method == "POST":
         user = request.form['user']
         passw = request.form['passw']
         con = sqlite3.connect('supersecure.db')
         c = con.cursor() 
         c.executescript("INSERT INTO users (username, password) VALUES ('%s', '%s')" % (user, passw))
-        #c.execute("INSERT INTO users (username,password) VALUES (?,?)",(user,passw) ) Secure
         con.commit()
-    # return redirect("/", code=302)
     return redirect("/sql", code=302)
-
-# @app.route("/login", methods=["GET", "POST"])
-# def login():
-#     if request.method == "GET":
-#         return render_template("xss_test.html")
-#     elif request.method == "POST":
-#         input = request.form['input']
-#         print(f"Input: {input}")
-#     return redirect("/login", code=302)
-
 
 
 if __name__ == "__main__":
