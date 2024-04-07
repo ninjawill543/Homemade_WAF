@@ -2,12 +2,28 @@ from flask import Flask, request, Response
 import requests
 import ssl
 from werkzeug.middleware.proxy_fix import ProxyFix
+import os
 
 app = Flask(__name__)
+
+
+if not os.path.exists("../logs"):
+    os.makedirs("../logs")
 
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
 SITE_NAME = "http://localhost:6969"
+
+@app.before_request 
+def before_request_callback():
+    if (request.path == "/sql"):
+        sql_check(request.values.get('user'), request.values.get('passw'), request.path, request.method)
+
+    if (request.path == "/xss"):
+        xss_check(request.values.get('input'), request.path, request.method)
+    
+    with open("../logs/logs.txt", "a") as f:
+        f.write(f"{datetime.datetime.now()};{request.remote_addr};{request.method};{request.path};{request.values};{request.mimetype};{request.headers.get('User-Agent')};{request.headers.get('Accept')};{request.headers.get('Content-Type')};{request.headers.get('Content-Length')}\n")
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
