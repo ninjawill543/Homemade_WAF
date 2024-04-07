@@ -38,7 +38,6 @@ def index():
     
     excluded_headers = ["content-encoding", "content-length", "transfer-encoding", "connection"]
     headers = [(name, value) for (name, value) in resp.raw.headers.items() if name.lower() not in excluded_headers]
-    # Add CSP header to the response
     headers.append(('Content-Security-Policy', CSP_POLICY))
     response = Response(resp.content, resp.status_code, headers)
     return response
@@ -52,7 +51,6 @@ def proxy(path):
     
     excluded_headers = ["content-encoding", "content-length", "transfer-encoding", "connection"]
     headers = [(name, value) for (name, value) in resp.raw.headers.items() if name.lower() not in excluded_headers]
-    # Add CSP header to the response
     headers.append(('Content-Security-Policy', CSP_POLICY))
     response = Response(resp.content, resp.status_code, headers)
     return response
