@@ -3,6 +3,9 @@ import requests
 import ssl
 from werkzeug.middleware.proxy_fix import ProxyFix
 import os
+from checks.sql import sql_check
+from checks.xss import xss_check
+import datetime
 
 app = Flask(__name__)
 

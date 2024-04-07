@@ -2,27 +2,27 @@
     "rules": [
       {
         "name": "Group1",
-        "rule": ["drop table", "drop+table", "insert into", "insert+into", "values\\W", "create table", "create+table", "delete\\W", "update\\W", "bulk insert", "bulk+insert", "shutdown\\W", "from\\W"],
+        "rule": ["drop table", "drop+table", "insert into", "insert+into", "values", "create table", "create+table", "delete", "update", "bulk insert", "bulk+insert", "shutdown", "from"],
         "points": 2
       },
       {
         "name": "Group2",
-        "rule": ["declare\\W", "select\\W", "' or", "-- -"],
+        "rule": ["declare", "select", "' or", "-- -"],
         "points": 2
       },
       {
         "name": "Group3",
-        "rule": ["cast\\W", "exec\\W", "load_file"],
+        "rule": ["cast", "exec", "load_file"],
         "points": 2
       },
       {
         "name": "Group4",
-        "rule": ["union\\W", "group by", "group+by", "order by", "order+by", "having\\W"],
+        "rule": ["union", "group by", "group+by", "order by", "order+by", "having"],
         "points": 2
       },
       {
         "name": "Group5",
-        "rule": ["and\\W", "or\\W", "like\\W", "is null", "is+null", "is not null", "is+not+null", "where\\W"],
+        "rule": ["and", "or", "like", "is null", "is+null", "is not null", "is+not+null", "where"],
         "points": 1
       },
       {
@@ -32,7 +32,7 @@
       },
       {
         "name": "Group7",
-        "rule": ["'", "%27", "\\x22", "%22", "char\\W"],
+        "rule": ["'", "%27", "\\x22", "%22", "char"],
         "points": 1
       },
       {
@@ -42,7 +42,7 @@
       },
       {
         "name": "Group9",
-        "rule": ["%2B", "CONCAT\\W"],
+        "rule": ["%2B", "CONCAT"],
         "points": 1
       },
       {
