@@ -25,7 +25,7 @@ This project implements a homemade Web Application Firewall (WAF) using Flask as
 
 - **File Upload Protection**: Makes sure that all uploaded files are images.
 
-- **HTTPS Connection**
+- **HTTPS Connection**: Please generate your own certificate and private key and place them in the certs folder. The current files should only be used for testing!
 
 
 ## Usage

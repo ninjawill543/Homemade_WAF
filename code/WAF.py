@@ -4,7 +4,6 @@ import ssl
 from werkzeug.middleware.proxy_fix import ProxyFix
 import os
 from checks.sql import sql_check
-from checks.xss import xss_check
 import datetime
 
 app = Flask(__name__)
@@ -22,9 +21,6 @@ CSP_POLICY = "default-src 'none'; script-src 'self'; connect-src 'self'; img-src
 def before_request_callback():
     if (request.path == "/sql"):
         sql_check(request.values.get('user'), request.values.get('passw'), request.path, request.method)
-
-    if (request.path == "/xss"):
-        xss_check(request.values.get('input'), request.path, request.method)
     
     with open("../logs/logs.txt", "a") as f:
         f.write(f"{datetime.datetime.now()};{request.remote_addr};{request.method};{request.path};{request.values};{request.mimetype};{request.headers.get('User-Agent')};{request.headers.get('Accept')};{request.headers.get('Content-Type')};{request.headers.get('Content-Length')}\n")
@@ -57,6 +53,6 @@ def proxy(path):
 
 if __name__ == "__main__":
     context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
-    context.load_cert_chain('certificate.crt', 'private.key')
+    context.load_cert_chain('../certs/certificate.crt', '../certs/private.key')
     
     app.run(debug=True, port=8443, ssl_context=context)
