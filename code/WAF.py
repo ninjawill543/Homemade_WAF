@@ -15,7 +15,7 @@ app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
 SITE_NAME = "http://localhost:6969"
 
-CSP_POLICY = "default-src 'none'; script-src 'none'; connect-src 'self'; img-src 'self'; style-src 'self'; frame-ancestors 'self'; form-action 'self'; upgrade-insecure-requests; require-trusted-types-for 'script'"
+CSP_POLICY = "default-src 'none'; script-src 'none'; object-src 'none'; base-uri 'none'; connect-src 'self'; img-src 'self'; style-src 'self'; frame-ancestors 'self'; form-action 'self'; upgrade-insecure-requests; require-trusted-types-for 'script'"
 
 @app.before_request 
 def before_request_callback():
