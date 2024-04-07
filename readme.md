@@ -6,7 +6,10 @@ This project implements a homemade Web Application Firewall (WAF) using Flask as
 
 ## Features
 
-- **Intentionally Vulnerable Web Server**: 
+- **Intentionally Vulnerable Web Server**: To test our WAF, we implemented certain security vulnerabilities into our web server, such as:
+    - SQL Injections: ```"INSERT INTO users (username, password) VALUES ('%s', '%s')" % (user, passw)```
+    - Stored XSS: ```{% autoescape true %}``` and ```{{ c_text | safe }}```
+    - Inprotected file upload:
 
 - **Reverse Proxy**: Acts as a reverse proxy to the insecure Flask web server, intercepting incoming requests and forwarding them appropriately.
 
