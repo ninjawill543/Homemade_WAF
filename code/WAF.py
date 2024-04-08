@@ -7,6 +7,8 @@ from checks.sql import sql_check
 from checks.image import image_check
 import datetime
 
+Protection = True
+
 app = Flask(__name__)
 
 if not os.path.exists("../logs"):
@@ -23,14 +25,15 @@ CSP_POLICY = "default-src 'none'; script-src 'none'; object-src 'none'; base-uri
 
 @app.before_request 
 def before_request_callback():
-    if (request.path == "/sql"):
-        sql_check(request.values.get('user'), request.values.get('passw'), request.path, request.method)
+    if Protection:
+        if (request.path == "/sql"):
+            sql_check(request.values.get('user'), request.values.get('passw'), request.path, request.method)
 
-    if (request.path == "/image" and request.method == "POST"):
-        image_check(request.files['file'], request.method)
-    
-    with open("../logs/logs.txt", "a") as f:
-        f.write(f"{datetime.datetime.now()};{request.remote_addr};{request.method};{request.path};{request.values};{request.mimetype};{request.headers.get('User-Agent')};{request.headers.get('Accept')};{request.headers.get('Content-Type')};{request.headers.get('Content-Length')}\n")
+        if (request.path == "/image" and request.method == "POST"):
+            image_check(request.files['file'], request.method)
+        
+        with open("../logs/logs.txt", "a") as f:
+            f.write(f"{datetime.datetime.now()};{request.remote_addr};{request.method};{request.path};{request.values};{request.mimetype};{request.headers.get('User-Agent')};{request.headers.get('Accept')};{request.headers.get('Content-Type')};{request.headers.get('Content-Length')}\n")
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
@@ -41,7 +44,8 @@ def index():
     
     excluded_headers = ["content-encoding", "content-length", "transfer-encoding", "connection"]
     headers = [(name, value) for (name, value) in resp.raw.headers.items() if name.lower() not in excluded_headers]
-    headers.append(('Content-Security-Policy', CSP_POLICY))
+    if Protection:
+        headers.append(('Content-Security-Policy', CSP_POLICY))
     response = Response(resp.content, resp.status_code, headers)
     return response
 
@@ -59,7 +63,8 @@ def proxy(path):
     
     excluded_headers = ["content-encoding", "content-length", "transfer-encoding", "connection"]
     headers = [(name, value) for (name, value) in resp.raw.headers.items() if name.lower() not in excluded_headers]
-    headers.append(('Content-Security-Policy', CSP_POLICY))
+    if Protection:
+        headers.append(('Content-Security-Policy', CSP_POLICY))
     response = Response(resp.content, resp.status_code, headers)
     return response
     
