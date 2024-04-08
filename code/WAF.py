@@ -19,6 +19,7 @@ CSP_POLICY = "default-src 'none'; script-src 'none'; object-src 'none'; base-uri
 
 @app.before_request 
 def before_request_callback():
+    print(request.files)
     if (request.path == "/sql"):
         sql_check(request.values.get('user'), request.values.get('passw'), request.path, request.method)
     
@@ -43,7 +44,12 @@ def proxy(path):
     if request.method == "GET":
         resp = requests.get(f"{SITE_NAME}/{path}")
     elif request.method == "POST":
-        resp = requests.post(f"{SITE_NAME}/{path}", data=request.form)
+        if 'file' in request.files:
+            file = request.files['file']
+            files = {'file': (file.filename, file.stream, file.mimetype)}
+            resp = requests.post(f"{SITE_NAME}/{path}", data=request.form, files=files)
+        else:  
+            resp = requests.post(f"{SITE_NAME}/{path}", data=request.form)
     
     excluded_headers = ["content-encoding", "content-length", "transfer-encoding", "connection"]
     headers = [(name, value) for (name, value) in resp.raw.headers.items() if name.lower() not in excluded_headers]
