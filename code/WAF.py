@@ -23,7 +23,7 @@ def before_request_callback():
     if (request.path == "/sql"):
         sql_check(request.values.get('user'), request.values.get('passw'), request.path, request.method)
 
-    if (request.path == "/image"):
+    if (request.path == "/image" and request.method == "POST"):
         image_check(request.files['file'], request.method)
     
     with open("../logs/logs.txt", "a") as f:
