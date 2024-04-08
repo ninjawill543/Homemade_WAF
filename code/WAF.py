@@ -4,6 +4,7 @@ import ssl
 from werkzeug.middleware.proxy_fix import ProxyFix
 import os
 from checks.sql import sql_check
+from checks.image import image_check
 import datetime
 
 app = Flask(__name__)
@@ -19,9 +20,11 @@ CSP_POLICY = "default-src 'none'; script-src 'none'; object-src 'none'; base-uri
 
 @app.before_request 
 def before_request_callback():
-    print(request.files)
     if (request.path == "/sql"):
         sql_check(request.values.get('user'), request.values.get('passw'), request.path, request.method)
+
+    if (request.path == "/image"):
+        image_check(request.files['file'], request.method)
     
     with open("../logs/logs.txt", "a") as f:
         f.write(f"{datetime.datetime.now()};{request.remote_addr};{request.method};{request.path};{request.values};{request.mimetype};{request.headers.get('User-Agent')};{request.headers.get('Accept')};{request.headers.get('Content-Type')};{request.headers.get('Content-Length')}\n")
