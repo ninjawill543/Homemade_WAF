@@ -1,11 +1,14 @@
 ### App ###
-# Logs
+#Logs
 logs/*
 
 #Database
 supersecure.db
 
-#python
+#Uploads
+uploads/*
+
+#Python
 __pycache__/
 
 ### Vim ###

@@ -12,6 +12,9 @@ app = Flask(__name__)
 if not os.path.exists("../logs"):
     os.makedirs("../logs")
 
+if not os.path.exists("../uploads"):
+    os.makedirs("../uploads")
+
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
 SITE_NAME = "http://localhost:6969"
@@ -65,4 +68,4 @@ if __name__ == "__main__":
     context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
     context.load_cert_chain('../certs/certificate.crt', '../certs/private.key')
     
-    app.run(debug=True, port=443, ssl_context=context)
+    app.run(debug=True, port=8443, ssl_context=context)

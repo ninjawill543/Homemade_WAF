@@ -25,7 +25,7 @@ def image():
         return render_template("image_test.html")
     elif request.method == "POST":
         file = request.files['file']
-        file.save(os.path.join(app.root_path, '../', file.filename))
+        file.save(os.path.join(app.root_path, '../uploads', file.filename))
         return redirect(request.url)
 
 
