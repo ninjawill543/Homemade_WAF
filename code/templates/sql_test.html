@@ -6,25 +6,15 @@
 </head>
 <body>
     <a href="/">Home</a> 
-   <h1>SQL test</h1>
-   <form action="/sql" method="post">
-        <input id="user" name="user" placeholder="username"/>
-        <input id="passw" name="passw" placeholder="password" type="password"/>
-        <button type="submit">Create account</button>
-    </form>
-  <!-- <table id="demo">
-        {% for u in usr %}
-        <tr>
-          <td>{{ u[0] }}</td>
-          <td>{{ u[1] }}</td>
-          <td>{{ u[2] }}</td>
-        </tr>
-        {% endfor %}
-      </table> -->
-    <!-- <form action="/login" method="post">
+    <h1>SQL test</h1>
+    <form action="/sql" method="post">
         <input id="user" name="user" placeholder="username"/>
         <input id="passw" name="passw" placeholder="password" type="password"/>
         <button type="submit">Login</button>
-    </form> -->
+    </form>
+    {% if username %}
+        <p>Username: {{ username }}</p>
+        <p>Password: {{ password }}</p>
+    {% endif %}
 </body>
 </html>

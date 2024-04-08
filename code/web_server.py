@@ -8,7 +8,8 @@ conn = sqlite3.connect('supersecure.db')
 c = conn.cursor()
 
 c.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT)")
-c.execute("CREATE TABLE IF NOT EXISTS comments (id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT)")                   
+c.execute("CREATE TABLE IF NOT EXISTS comments (id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT)")   
+c.execute("INSERT INTO users (username, password) SELECT ?, ? WHERE NOT EXISTS (SELECT 1 FROM users)", ('admin', 'supErFl@g'))
 conn.commit()
 
 conn.close()
@@ -68,15 +69,19 @@ def xss():
 @app.route("/sql", methods=["GET", "POST"])
 def sql():
     if request.method == "GET":
-        return render_template("sql_test.html")
+        return render_template("sql_test.html", username=None, password=None)
     elif request.method == "POST":
         user = request.form['user']
         passw = request.form['passw']
         con = sqlite3.connect('supersecure.db')
         c = con.cursor() 
-        c.executescript("INSERT INTO users (username, password) VALUES ('%s', '%s')" % (user, passw))
-        con.commit()
-    return redirect("/sql", code=302)
+        c.execute("SELECT * FROM users WHERE username='%s' AND password='%s'" % (user, passw))
+        user_data = c.fetchone()
+        con.close()
+        if user_data:  # If user exists
+            return render_template("sql_test.html", username=user_data[1], password=user_data[2])
+        else:
+            return "Invalid username or password"
 
 
 if __name__ == "__main__":
