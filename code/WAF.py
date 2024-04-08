@@ -56,4 +56,4 @@ if __name__ == "__main__":
     context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
     context.load_cert_chain('../certs/certificate.crt', '../certs/private.key')
     
-    app.run(debug=True, port=8443, ssl_context=context)
+    app.run(debug=True, port=443, ssl_context=context)
