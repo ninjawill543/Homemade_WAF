@@ -13,13 +13,26 @@ This project implements a homemade Web Application Firewall (WAF) using Flask as
 
 - **Reverse Proxy**: Acts as a reverse proxy to the insecure Flask web server, intercepting incoming requests and forwarding them appropriately.
 
-- **Content Security Policy (CSP)**: Implements CSP headers to mitigate against XSS attacks by controlling what content can be executed on the client-side.
+- **Content Security Policy (CSP)**: Implements CSP headers to mitigate against XSS attacks by controlling what content can be executed on the client-side. These are the rules that we put in place: 
+    - default-src 'none': Sets a default policy where nothing is allowed unless explicitly permitted.
+    - script-src 'none': Specifies that no JavaScript can be executed.
+    - object-src 'none': Prevents any plugins or embedded objects from being loaded.
+    - base-uri 'none': Disallows the use of base URLs for relative links.
+    - connect-src 'self': Only allows connections to the same origin for things like Ajax requests.
+    - img-src 'self': Limits loading of images to those from the same origin.
+    - style-src 'self': Permits stylesheets to be loaded only from the same origin.
+    - frame-ancestors 'self': Restricts embedding of the page to the same origin frames.
+    - form-action 'self': Specifies that form submissions can only be made to the same origin.
+    - upgrade-insecure-requests : Automatically upgrades HTTP requests to HTTPS for enhanced security.
+    - require-trusted-types-for 'script' 
 
-- **SQL Injection Protection**: Checks incoming requests for SQL injection attempts, then based on the score given by the checker, either allows the request, logs it for suspicious activity, or simply blocks it.
+    Same origin explained: The browser can only load content from itself, meaning that external websites and sources cannot be loaded.
+
+- **SQL Injection Protection**: Checks incoming requests for SQL injection attempts by evaluating the content of each input, and giving it a score based on the amount of SQL keywords that are found. Some categories of words are worth 1 point, where others are worth 2, and if multiple words from the same category are found, the points for that category do not increase. If an input gets a score of 3, the request is allowed but logged, and if the score is 4 or higher, the request will be logged and then dropped. You can view the lists of words [here](code/checks/sql.json)
 
 - **Malicious IP and DDOS protection**: 
 
-- **HTTP Verb Checking**: Only allows GET and POST requests to the site.
+- **HTTP Verb Checking**: Only allows GET and POST requests to the site. This is done by specifying the methods for each route: ```methods=['GET', 'POST']```
 
 - **Anti-Bot Protection**:
 
