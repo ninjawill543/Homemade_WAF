@@ -12,7 +12,7 @@
       },
       {
         "name": "Group3",
-        "rule": ["cast", "exec", "load_file"],
+        "rule": ["cast", "exec", "load_file", "--" ],
         "points": 2
       },
       {
@@ -27,7 +27,7 @@
       },
       {
         "name": "Group6",
-        "rule": ["--", "%2D%2D", "/*", "%2F%2A", "*/", "%2A%2F"],
+        "rule": ["%2D%2D", "/*", "%2F%2A", "*/", "%2A%2F"],
         "points": 1
       },
       {
