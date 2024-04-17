@@ -1,0 +1,2 @@
+2024-03-29 11:54:02.681365;127.0.0.1;POST;/xss;CombinedMultiDict([ImmutableMultiDict([]), ImmutableMultiDict([('input', 'test')])])
+2024-03-29 11:54:02.751554;127.0.0.1;GET;/favicon.ico;CombinedMultiDict([ImmutableMultiDict([])])
