@@ -1,4 +1,7 @@
 ### App ###
+# API key
+apiKey.txt
+
 #Logs
 logs/*
 

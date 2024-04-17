@@ -23,7 +23,8 @@ SITE_NAME = "http://localhost:6969"
 
 CSP_POLICY = "default-src 'none'; script-src 'none'; object-src 'none'; base-uri 'none'; connect-src 'self'; img-src 'self'; style-src 'self'; frame-ancestors 'self'; form-action 'self'; upgrade-insecure-requests; require-trusted-types-for 'script'"
 
-LOGS = "{time};{addr};{method};{path};{values};{mimetype};{headers1};{headers2};{headers3};{headers4}\n"
+BREAK = "~*~"
+LOGS = BREAK.join(("{time}", "{addr}", "{method}", "{path}", "{values}", "{mimetype}", "{headers1}", "{headers2}", "{headers3}", "{headers4}\n"))
 
 @app.before_request 
 def before_request_callback():

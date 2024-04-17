@@ -1,19 +1,40 @@
-import numpy as np
-import csv
+import os.path
+
+BREAK = "~*~"
+LOGS = BREAK.join(("{time}", "{addr}", "{method}", "{path}", "{values}", "{mimetype}", "{headers1}", "{headers2}", "{headers3}", "{headers4}\n"))
 
 def open_logs() -> []:
-    with open("logs.txt", "r") as f:
-        reader = csv.reader(f, delimiter=";")
-        logs = [i for i in reader]
-        return logs
-    return
+    if os.path.exists("../logs/logs.txt"):
+        with open("../logs/logs.txt", "r") as f: 
+            data = f.read()
+            logs = []
+            for line in data.split("\n"):
+                logs.append(line.split(BREAK))
+            return logs[:len(logs)-1]
+    return []
 
-def check_integrity(logs: []) -> int:
+def check_integrity(logs: [[str]], length: int) -> bool:
     for i in logs:
-        if len(i) != 5:
-            return 0
-    return 1
+        if len(i) != length:
+            return False
+    return True
+
+def count_ips(logs: [[str]]) -> ([int], [int]):
+    if len(logs) == 0:
+        return [], []
+    ip = [logs[0][1]]
+    count = [0]
+    for i in logs:
+        for k in range(len(ip)):
+            if i[1] == ip[k]:
+                count[k] += 1
+                break
+            if k == len(ip)-1:
+                ip.append(i[1])
+                count.append(1)
+    return ip, count
 
 if __name__ == "__main__":
     logs = open_logs()
-    print(logs, check_integrity(logs), sep="\n")
+    # print(logs, check_integrity(logs, len(LOGS.split(BREAK))), logs[0][1], sep="\n")
+    print(count_ips(logs))
