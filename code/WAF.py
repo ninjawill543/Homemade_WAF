@@ -23,6 +23,8 @@ SITE_NAME = "http://localhost:6969"
 
 CSP_POLICY = "default-src 'none'; script-src 'none'; object-src 'none'; base-uri 'none'; connect-src 'self'; img-src 'self'; style-src 'self'; frame-ancestors 'self'; form-action 'self'; upgrade-insecure-requests; require-trusted-types-for 'script'"
 
+LOGS = "{time};{addr};{method};{path};{values};{mimetype};{headers1};{headers2};{headers3};{headers4}\n"
+
 @app.before_request 
 def before_request_callback():
     if Protection:
@@ -33,7 +35,7 @@ def before_request_callback():
             image_check(request.files['file'], request.method)
         
         with open("../logs/logs.txt", "a") as f:
-            f.write(f"{datetime.datetime.now()};{request.remote_addr};{request.method};{request.path};{request.values};{request.mimetype};{request.headers.get('User-Agent')};{request.headers.get('Accept')};{request.headers.get('Content-Type')};{request.headers.get('Content-Length')}\n")
+            f.write(LOGS.format(time=datetime.datetime.now(), addr=request.remote_addr, method=request.method, path=request.path, values=request.values, mimetype=request.mimetype, headers1=request.headers.get('User-Agent'), headers2=request.headers.get('Accept'), headers3=request.headers.get('Content-Type'), headers4=request.headers.get('Content-Length')))
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
