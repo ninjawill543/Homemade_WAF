@@ -99,11 +99,33 @@ def open_blacklist() -> ([str], [float]):
     return [], []
 
 def add_blacklist(ip: str, status: int) -> None:
+    if os.path.exists("../logs/blacklist.txt"):
+        new_data = []
+        with open("../logs/blacklist.txt", "r") as f:
+            data = f.read()
+            data = data[:len(data)-1].split("\n")
+            if len(data) != 0:
+                for i in range(len(data)):
+                    line = data[i].split(";")
+                    if line[0] == ip:
+                        if line[1] != 3:
+                            new = [line[0], str(status)]
+                            new_data = data[:i]
+                            new_data.append(";".join(new))
+                            for k in data[i+1:]:
+                                new_data.append(k)
+                        break
+        if len(new_data) > 0:
+            with open("../logs/blacklist.txt", "w") as f:
+                f.write("\n".join(new_data)+"\n")
+        else:
+            with open("../logs/blacklist.txt", "a") as f:
+               f.write(ip+";"+str(status)+"\n")
+        return
     with open("../logs/blacklist.txt", "a") as f:
         f.write(ip+";"+str(status)+"\n")
 
     
 if __name__ == "__main__":
     ip, count = count_ips(open_logs())
-    print(check_last_entry(ip, count))
-    print(open_blacklist(), add_blacklist("test", 1), open_blacklist())
+    print(add_blacklist("test10", 1))
