@@ -82,20 +82,28 @@ def check_last_entry(ip: [str], count: [int]) -> None:
             count.append(1)
     return ip, count
 
-def open_blacklist() -> [str], [float]:
-    if os.path.exist("../logs/blacklist.txt"):
-        with open("../logs/blacklist/txt", "r") as f:
+def open_blacklist() -> ([str], [float]):
+    if os.path.exists("../logs/blacklist.txt"):
+        with open("../logs/blacklist.txt", "r") as f:
             data = f.read()
+            data = data[:len(data)-1]
+            if len(data) == 0:
+                return [], []
             ip = []
             status = []
-            for line in data.split("\n").split(";"):
+            for line in data.split("\n"):
+                line = line.split(";")
                 ip.append(line[0])
                 status.append(line[1])                    
         return ip, status
-    return
+    return [], []
+
+def add_blacklist(ip: str, status: int) -> None:
+    with open("../logs/blacklist.txt", "a") as f:
+        f.write(ip+";"+str(status)+"\n")
 
     
 if __name__ == "__main__":
     ip, count = count_ips(open_logs())
     print(check_last_entry(ip, count))
-    print(open_blacklist())
+    print(open_blacklist(), add_blacklist("test", 1), open_blacklist())
