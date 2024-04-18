@@ -25,7 +25,7 @@ def check_integrity(logs: [[str]], length: int) -> bool:
             return False
     return True
 
-def count_ips(logs: [[str]]) -> ([int], [int]):
+def count_ips(logs: [[str]]) -> ([str], [int]):
     if len(logs) == 0:
         return [], []
     ip = [logs[0][1]]
@@ -65,8 +65,28 @@ def check_ip(ip: str) -> bool:
         return
     return
 
-if __name__ == "__main__":
+def check_last_entry(ip: [str], count: [int]) -> None:
     logs = open_logs()
-    # print(logs, check_integrity(logs, len(LOGS.split(BREAK))), logs[0][1], sep="\n")
-    print(count_ips(logs))
-    print(check_ip("1.1.1.1"))
+    if len(logs) == 0:
+        return
+    if not check_integrity(logs, len(LOGS.split(BREAK))):
+        print("ERROR : LOGS COMPROMISED")
+        exit(1)
+    line = logs[len(logs)-1]
+    for i in range(len(ip)):
+        if ip[i] == line[1]:
+            count[i] += 1
+            break
+        if i == len(ip)-1:
+            ip.append(ip[i])
+            count.append(1)
+    return ip, count
+
+"""
+def open_blacklist() -> [str], [float]:
+    if os.path.exist
+"""
+
+if __name__ == "__main__":
+    ip, count = count_ips(open_logs())
+    print(check_last_entry(ip, count))
