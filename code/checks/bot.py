@@ -52,18 +52,18 @@ def load_api_key() -> bool:
 
 def check_ip(ip: str) -> bool:
     if not load_api_key():
-        return
+        return True
     try:
         resp = requests.get(URL.format(ip=ip), headers=HEADERS)
         votes = resp.json()["data"]["attributes"]["total_votes"]
         if votes["harmless"] == 0:
             if votes["malicious"] == 0:
-                return
-            return True
+                return True
+            return False
         return (votes["harmless"]/votes["malicious"]) > 1
     except requests.exceptions.RequestException as e:
-        return
-    return
+        return True
+    return True
 
 def check_last_entry(ip: [str], count: [int]) -> None:
     logs = open_logs()
@@ -125,7 +125,23 @@ def add_blacklist(ip: str, status: int) -> None:
     with open("../logs/blacklist.txt", "a") as f:
         f.write(ip+";"+str(status)+"\n")
 
-    
+def check_blacklist(to_find: str) -> int:
+    ip, status = open_blacklist()
+    for i in range(len(ip)):
+        if ip[i] == to_find:
+            return int(status[i])
+    return 0
+
+def blacklist(target: str) -> int:
+    status = check_blacklist(target)
+    if status < 2:
+        add_blacklist(target, status+1)
+        return status+1
+    elif status < 3:
+        add_blacklist(target, 2)
+        return 2
+    return 3
+
 if __name__ == "__main__":
     ip, count = count_ips(open_logs())
-    print(add_blacklist("test10", 1))
+    print(check_blacklist("test2"))
