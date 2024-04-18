@@ -69,4 +69,4 @@ if __name__ == "__main__":
     logs = open_logs()
     # print(logs, check_integrity(logs, len(LOGS.split(BREAK))), logs[0][1], sep="\n")
     print(count_ips(logs))
-    print(check_ip("1.3.3.4"))
+    print(check_ip("1.1.1.1"))
