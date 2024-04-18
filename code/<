@@ -27,8 +27,12 @@ CSP_POLICY = "default-src 'none'; script-src 'none'; object-src 'none'; base-uri
 BREAK = "~*~"
 LOGS = BREAK.join(("{time}", "{addr}", "{method}", "{path}", "{values}", "{mimetype}", "{headers1}", "{headers2}", "{headers3}", "{headers4}\n"))
 
+CURR_IPS = [str]
+COUNT = [int]
+
 @app.before_request 
 def before_request_callback():
+    print(test)
     if Protection:
         if (request.path == "/sql"):
             sql_check(request.values.get('user'), request.values.get('passw'), request.path, request.method)
@@ -38,17 +42,19 @@ def before_request_callback():
         
         with open("../logs/logs.txt", "a") as f:
             f.write(LOGS.format(time=datetime.datetime.now(), addr=request.remote_addr, method=request.method, path=request.path, values=request.values, mimetype=request.mimetype, headers1=request.headers.get('User-Agent'), headers2=request.headers.get('Accept'), headers3=request.headers.get('Content-Type'), headers4=request.headers.get('Content-Length')))
-
-        ip, count = bot.count_ips(bot.open_logs())
-        avg = bot.average_ip(count)
-        curr_index = bot.find_ip(request.remote_addr, ip)
-        print(avg, count[curr_index])
-        if count[curr_index]> 2.5*avg:
-            bot.add_blacklist(request.remote_addr, 3)
+        """
+        if len(IP) == 0:
+            IP, COUNT = count_ips(open_logs())
+        else:
+            IP, COUNT = check_last_entry()
         
+        # avg = average_ip
+
         if bot.check_blacklist(request.remote_addr) == 3:
             return 'hackers gonna hack', 401
-        
+            """
+
+
 
 @app.route("/", methods=['GET', 'POST'])
 def index():

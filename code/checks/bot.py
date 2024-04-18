@@ -19,12 +19,6 @@ def open_logs() -> []:
             return logs[:len(logs)-1]
     return []
 
-def check_integrity(logs: [[str]], length: int) -> bool:
-    for i in logs:
-        if len(i) != length:
-            return False
-    return True
-
 def count_ips(logs: [[str]]) -> ([str], [int]):
     if len(logs) == 0:
         return [], []
@@ -39,6 +33,20 @@ def count_ips(logs: [[str]]) -> ([str], [int]):
                 ip.append(i[1])
                 count.append(1)
     return ip, count
+
+def average_ip(count: [int]) -> int:
+    if len(count) < 0:
+        return 0
+    sum = 0
+    for i in count:
+        sum += i
+    return sum/len(count)
+
+def find_ip(target: str, ip: [str]) -> int:
+    for i in range(len(ip)):
+        if ip[i] == target:
+            return i
+    return -1
 
 def load_api_key() -> bool:
     if not os.path.exists("apiKey.txt"):
@@ -69,9 +77,6 @@ def check_last_entry(ip: [str], count: [int]) -> None:
     logs = open_logs()
     if len(logs) == 0:
         return
-    if not check_integrity(logs, len(LOGS.split(BREAK))):
-        print("ERROR : LOGS COMPROMISED")
-        exit(1)
     line = logs[len(logs)-1]
     for i in range(len(ip)):
         if ip[i] == line[1]:
@@ -140,7 +145,7 @@ def blacklist(target: str) -> int:
     elif status < 3:
         add_blacklist(target, 2)
         return 2
-    return 3
+    return 3 
 
 if __name__ == "__main__":
     ip, count = count_ips(open_logs())
