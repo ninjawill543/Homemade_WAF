@@ -94,7 +94,7 @@ If you wish to disable the WAF protection to view the original site, simply chan
 This project is licensed under the [MIT License](LICENSE).
 
 
-## Hacking
+## DDOS
 
 https://github.com/ninjawill543/Homemade_WAF/assets/112950582/468efb5d-788e-4abf-826f-95f35d929369
 
