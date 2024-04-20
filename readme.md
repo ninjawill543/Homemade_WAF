@@ -43,6 +43,44 @@ This project implements a homemade Web Application Firewall (WAF) using Flask as
 
 ## Usage
 
+To use this project, you should run a python3 virtual environment. For example :
+
+```console
+$ git clone git@github.com:ninjawill543/Homemade_WAF.git
+Cloning into 'Homemade_WAF'...
+remote: Enumerating objects: 468, done.
+remote: Counting objects: 100% (221/221), done.
+remote: Compressing objects: 100% (158/158), done.
+remote: Total 468 (delta 124), reused 145 (delta 62), pack-reused 247
+Receiving objects: 100% (468/468), 72.30 KiB | 649.00 KiB/s, done.
+Resolving deltas: 100% (255/255), done.
+$ cd Homemade_WAF/
+$ python3 -m venv env
+$ source env/bin/activate
+(env) $ pip install -r requirements.txt
+```
+
+If you're using Windows, the command to activate the environment is slighty different :
+
+```console
+ env/Scripts/activate.bat //In CMD
+ env/Scripts/Activate.ps1 //In Powershel
+```
+
+Now that you've activated the environment and installed the requirements, you can run the programs (inside two different shells) :
+
+```console
+(env) $ cd code/
+(env) $ python3 web_server.py
+```
+
+```console
+(env) $ cd code/
+(env) $ python3 WAF.py
+```
+
+You can now access the web site via the address given by the WAF.py application.
+
 If you want the WAF to reverse lookup the IP's of the clients, the program will need an API key. Use [this documentation](https://docs.virustotal.com/docs/api-overview) to get yours. Once you have it, write it inside `code/apiKey.txt`. The program will automatically look for this file, if found he'll use the key inside of it to send requests to VirusTotal.
 
 If you want to modify the BAN_LIMIT or CHECK_LIMIT described above, you can find those global variables inside WAF.py :
