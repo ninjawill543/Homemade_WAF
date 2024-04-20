@@ -26,7 +26,8 @@ CSP_POLICY = "default-src 'none'; script-src 'none'; object-src 'none'; base-uri
 
 BREAK = "~*~"
 LOGS = BREAK.join(("{time}", "{addr}", "{method}", "{path}", "{values}", "{mimetype}", "{headers1}", "{headers2}", "{headers3}", "{headers4}\n"))
-LIMIT = 2.5
+CHECK_LIMIT = 1 
+BAN_LIMIT = 2
 
 @app.before_request 
 def before_request_callback():
@@ -40,13 +41,8 @@ def before_request_callback():
         with open("../logs/logs.txt", "a") as f:
             f.write(LOGS.format(time=datetime.datetime.now(), addr=request.remote_addr, method=request.method, path=request.path, values=request.values, mimetype=request.mimetype, headers1=request.headers.get('User-Agent'), headers2=request.headers.get('Accept'), headers3=request.headers.get('Content-Type'), headers4=request.headers.get('Content-Length')))
 
-        ip, count = bot.count_ips(bot.open_logs())
-        avg = bot.average_ip(count)
-        curr_index = bot.find_ip(request.remote_addr, ip)
-        if count[curr_index]> LIMIT*avg:
-            bot.add_blacklist(request.remote_addr, 3)
-        
-        if bot.check_blacklist(request.remote_addr) == 3:
+        bot.blacklist(request.remote_addr, CHECK_LIMIT, BAN_LIMIT)
+        if bot.check_blacklist(request.remote_addr) == 2:
             return 'hackers gonna hack', 401
         
 

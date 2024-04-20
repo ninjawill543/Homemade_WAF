@@ -137,15 +137,28 @@ def check_blacklist(to_find: str) -> int:
             return int(status[i])
     return 0
 
-def blacklist(target: str) -> int:
+def blacklist(target: str, limit1: int, limit2: int) -> int:
     status = check_blacklist(target)
-    if status < 2:
-        add_blacklist(target, status+1)
-        return status+1
-    elif status < 3:
+    print(status)
+    if status == 2:
+        return 2
+
+    ip, count = count_ips(open_logs())
+    avg = average_ip(count)
+    target_index = find_ip(target, ip)
+
+    print(avg, count[target_index])
+
+    if count[target_index] > avg*limit2:
         add_blacklist(target, 2)
         return 2
-    return 3 
+    if (count[target_index] > avg*limit1) and (status != 1):
+        if not check_ip(target):
+            add_blacklist(target, 2)
+            return 2
+        add_blacklist(target, 1)
+        return 1
+    return status
 
 if __name__ == "__main__":
     ip, count = count_ips(open_logs())
