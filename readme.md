@@ -42,16 +42,13 @@ To use this project, you should run a python3 virtual environment. For example :
 
 ```console
 $ git clone https://github.com/ninjawill543/Homemade_WAF.git
-Cloning into 'Homemade_WAF'...
-remote: Enumerating objects: 468, done.
-remote: Counting objects: 100% (221/221), done.
-remote: Compressing objects: 100% (158/158), done.
-remote: Total 468 (delta 124), reused 145 (delta 62), pack-reused 247
-Receiving objects: 100% (468/468), 72.30 KiB | 649.00 KiB/s, done.
-Resolving deltas: 100% (255/255), done.
+
 $ cd Homemade_WAF/
+
 $ python3 -m venv env
+
 $ source env/bin/activate
+
 (env) $ pip install -r requirements.txt
 ```
 
