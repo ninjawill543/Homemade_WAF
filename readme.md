@@ -34,7 +34,7 @@ This project implements a homemade Web Application Firewall (WAF) using Flask as
 
 - **HTTP Verb Checking**: Only allows GET and POST requests to the site. This is done by specifying the methods for each route: ```methods=['GET', 'POST']```
 
-- **Anti-Bot Protection**:
+- **Anti-Bot Protection**: Blocks malicious actors trying to use spam the websites by checking the client IP addresses with VirusTotal, and banning clients sending too much requests. Two variable can be modified in the program : CHECK_LIMIT which defines when an IP will be looked up with VirusTotal, and BAN_LIMIT which defines when and IP will get banned for spamming. The code will look at the logs, and calculate the average rate of requests sent per client. If a specific client has sent over BAN_LIMIT*average (average being the average rate of requests per client), he will be immediatly banned, all further requests will be dropped. He will also be added in /logs/blacklist.txt under the code 2. If a specific client has sent over CHECK_LIMIT*average, it's IP address will be looked up by VirusTotal. In that case if the IP is deemed malicious, all further requests will be dropped and he's added in /logs/blacklist.txt under the code 2. If not, he added to /logs/blacklist.txt under the code 1 which means this IP has been checked, and will not get checked anymore.
 
 - **File Upload Protection**: Makes sure that all uploaded files are images.
 
@@ -43,8 +43,16 @@ This project implements a homemade Web Application Firewall (WAF) using Flask as
 
 ## Usage
 
-...
+If you want the WAF to reverse lookup the IP's of the clients, the program will need an API key. Use [this documentation](https://docs.virustotal.com/docs/api-overview) to get yours. Once you have it, write it inside `code/apiKey.txt`. The program will automatically look for this file, if found he'll use the key inside of it to send requests to VirusTotal.
 
+If you want to modify the BAN_LIMIT or CHECK_LIMIT described above, you can find those global variables inside WAF.py :
+
+```console
+$ cat WAF.py | grep 'BAN_LIMIT ='
+BAN_LIMIT = 2
+$ cat WAF.py | grep 'CHECK_LIMIT ='
+CHECK_LIMIT = 1
+```
 
 ## License
 
