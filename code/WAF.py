@@ -26,6 +26,7 @@ CSP_POLICY = "default-src 'none'; script-src 'none'; object-src 'none'; base-uri
 
 BREAK = "~*~"
 LOGS = BREAK.join(("{time}", "{addr}", "{method}", "{path}", "{values}", "{mimetype}", "{headers1}", "{headers2}", "{headers3}", "{headers4}\n"))
+LIMIT = 2.5
 
 @app.before_request 
 def before_request_callback():
@@ -42,8 +43,7 @@ def before_request_callback():
         ip, count = bot.count_ips(bot.open_logs())
         avg = bot.average_ip(count)
         curr_index = bot.find_ip(request.remote_addr, ip)
-        print(avg, count[curr_index])
-        if count[curr_index]> 2.5*avg:
+        if count[curr_index]> LIMIT*avg:
             bot.add_blacklist(request.remote_addr, 3)
         
         if bot.check_blacklist(request.remote_addr) == 3:
