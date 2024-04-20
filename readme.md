@@ -9,7 +9,6 @@ This project implements a homemade Web Application Firewall (WAF) using Flask as
 - **Intentionally Vulnerable Web Server**: To test our WAF, we implemented certain security vulnerabilities into our web server, such as:
     - SQL Injections: ```"INSERT INTO users (username, password) VALUES ('%s', '%s')" % (user, passw)```
     - Stored XSS: ```{% autoescape true %}``` and ```{{ c_text | safe }}```
-    - Unprotected file upload:
 
 - **Reverse Proxy**: Acts as a reverse proxy to the insecure Flask web server, intercepting incoming requests and forwarding them appropriately.
 
@@ -33,7 +32,6 @@ This project implements a homemade Web Application Firewall (WAF) using Flask as
 - **HTTP Verb Checking**: Only allows GET and POST requests to the site. This is done by specifying the methods for each route: ```methods=['GET', 'POST']```
 
 - **Anti-Bot Protection**: Blocks malicious actors trying to spam the website by checking the client's IP addresses with VirusTotal, and banning clients sending too much requests. Two variables can be modified in the program : CHECK_LIMIT which defines when an IP will be looked up with VirusTotal, and BAN_LIMIT which defines when and IP will get banned for spamming. The code will look at the logs, and calculate the average rate of requests sent per client. If a specific client has sent over BAN_LIMIT\*average (average being the average rate of requests per client), he will be immediatly banned, all further requests will be dropped. He will also be added in /logs/blacklist.txt under the code 2. If a specific client has sent over CHECK_LIMIT\*average, it's IP address will be looked up by VirusTotal. In that case if the IP is deemed malicious, all further requests will be dropped and he's added in /logs/blacklist.txt under the code 2. If not, he added to /logs/blacklist.txt under the code 1 which means this IP has been checked, and will not get checked anymore.
-
 
 - **HTTPS Connection**: Please generate your own certificate and private key and place them in the certs folder. The current files should only be used for testing!
 
