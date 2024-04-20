@@ -4,11 +4,10 @@ import ssl
 from werkzeug.middleware.proxy_fix import ProxyFix
 import os
 from checks.sql import sql_check
-from checks.image import image_check
 import datetime
 import checks.bot as bot
 
-Protection = True
+Protection = True # Change this to false to view the website with no protection
 
 app = Flask(__name__)
 
@@ -34,9 +33,6 @@ def before_request_callback():
     if Protection:
         if (request.path == "/sql"):
             sql_check(request.values.get('user'), request.values.get('passw'), request.path, request.method)
-
-        if (request.path == "/image" and request.method == "POST"):
-            image_check(request.files['file'], request.method)
         
         with open("../logs/logs.txt", "a") as f:
             f.write(LOGS.format(time=datetime.datetime.now(), addr=request.remote_addr, method=request.method, path=request.path, values=request.values, mimetype=request.mimetype, headers1=request.headers.get('User-Agent'), headers2=request.headers.get('Accept'), headers3=request.headers.get('Content-Type'), headers4=request.headers.get('Content-Length')))

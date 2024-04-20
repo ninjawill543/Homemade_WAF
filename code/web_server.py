@@ -20,16 +20,6 @@ app = Flask(__name__)
 def home():
     return render_template("home.html")
 
-@app.route("/image", methods=["GET", "POST"])
-def image():
-    if request.method == "GET":
-        return render_template("image_test.html")
-    elif request.method == "POST":
-        file = request.files['file']
-        file.save(os.path.join(app.root_path, '../uploads', file.filename))
-        return redirect(request.url)
-
-
 def getcomments():
     conn = sqlite3.connect("supersecure.db")
     cursor = conn.cursor()
@@ -78,7 +68,7 @@ def sql():
         c.execute("SELECT * FROM users WHERE username='%s' AND password='%s'" % (user, passw))
         user_data = c.fetchone()
         con.close()
-        if user_data:  # If user exists
+        if user_data: 
             return render_template("sql_test.html", username=user_data[1], password=user_data[2])
         else:
             return "Invalid username or password"

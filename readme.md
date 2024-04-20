@@ -30,13 +30,10 @@ This project implements a homemade Web Application Firewall (WAF) using Flask as
 
 - **SQL Injection Protection**: Checks incoming requests for SQL injection attempts by evaluating the content of each input, and giving it a score based on the amount of SQL keywords that are found. Some categories of words are worth 1 point, where others are worth 2, and if multiple words from the same category are found, the points for that category do not increase. If an input gets a score of 3, the request is allowed but logged, and if the score is 4 or higher, the request will be logged and then dropped. You can view the lists of words [here](code/checks/sql.json)
 
-- **Malicious IP and DDOS protection**: 
-
 - **HTTP Verb Checking**: Only allows GET and POST requests to the site. This is done by specifying the methods for each route: ```methods=['GET', 'POST']```
 
 - **Anti-Bot Protection**: Blocks malicious actors trying to spam the website by checking the client's IP addresses with VirusTotal, and banning clients sending too much requests. Two variables can be modified in the program : CHECK_LIMIT which defines when an IP will be looked up with VirusTotal, and BAN_LIMIT which defines when and IP will get banned for spamming. The code will look at the logs, and calculate the average rate of requests sent per client. If a specific client has sent over BAN_LIMIT\*average (average being the average rate of requests per client), he will be immediatly banned, all further requests will be dropped. He will also be added in /logs/blacklist.txt under the code 2. If a specific client has sent over CHECK_LIMIT\*average, it's IP address will be looked up by VirusTotal. In that case if the IP is deemed malicious, all further requests will be dropped and he's added in /logs/blacklist.txt under the code 2. If not, he added to /logs/blacklist.txt under the code 1 which means this IP has been checked, and will not get checked anymore.
 
-- **File Upload Protection**: Makes sure that all uploaded files are images.
 
 - **HTTPS Connection**: Please generate your own certificate and private key and place them in the certs folder. The current files should only be used for testing!
 
@@ -46,7 +43,7 @@ This project implements a homemade Web Application Firewall (WAF) using Flask as
 To use this project, you should run a python3 virtual environment. For example :
 
 ```console
-$ git clone git@github.com:ninjawill543/Homemade_WAF.git
+$ git clone https://github.com/ninjawill543/Homemade_WAF.git
 Cloning into 'Homemade_WAF'...
 remote: Enumerating objects: 468, done.
 remote: Counting objects: 100% (221/221), done.
@@ -81,7 +78,7 @@ Now that you've activated the environment and installed the requirements, you ca
 
 You can now access the web site via the address given by the WAF.py application.
 
-If you want the WAF to reverse lookup the IP's of the clients, the program will need an API key. Use [this documentation](https://docs.virustotal.com/docs/api-overview) to get yours. Once you have it, write it inside `code/apiKey.txt`. The program will automatically look for this file, if found he'll use the key inside of it to send requests to VirusTotal.
+If you want the WAF to reverse lookup the IP's of the clients, the program will need an API key. Use [this documentation](https://docs.virustotal.com/docs/api-overview) to get yours. Once you have it, write it inside `code/apiKey.txt`. The program will automatically look for this file, if found it will use the key inside of it to send requests to VirusTotal.
 
 If you want to modify the BAN_LIMIT or CHECK_LIMIT described above, you can find those global variables inside WAF.py :
 
@@ -91,6 +88,8 @@ BAN_LIMIT = 2
 $ cat WAF.py | grep 'CHECK_LIMIT ='
 CHECK_LIMIT = 1
 ```
+
+If you wish to disable the WAF protection to view the original site, simply change line 10 of WAF.py to False.
 
 ## License
 
